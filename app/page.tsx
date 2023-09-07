@@ -1,7 +1,8 @@
+import { Button } from "@/components/ui/button"
 
 
 export default function Home() {
   return (
-  <p>Hello Dash Ai</p>
+<Button variant="destructive">Click me</Button>
   )
 }
