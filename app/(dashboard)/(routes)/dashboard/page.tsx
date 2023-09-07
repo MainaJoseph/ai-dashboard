@@ -4,7 +4,7 @@ const DashboardPage = () =>{
   return (
 <div>
  Dashboard Page (protected)
- <UserButton />
+ <UserButton afterSignOutUrl="/" />
 </div>
   );
 }
