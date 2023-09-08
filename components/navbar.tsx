@@ -10,7 +10,7 @@ const Navbar = () => {
         <Menu />
       </Button>
       <div className='flex w-full justify-end'>
-<UserButton />
+<UserButton afterSignOutUrl='/'/>
       </div>
     </div>
   );
