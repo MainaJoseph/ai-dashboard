@@ -1,6 +1,9 @@
+"use client"
+
 import { Card } from "@/components/ui/card";
 import { MessageSquare, ArrowRight, Music, ImageIcon, VideoIcon, Code} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const tools = [
   {
@@ -36,11 +39,12 @@ const tools = [
     icon: Code, 
     color: "text-green-700",
     bgColor: "bg-green-700/10",
-    href: "/video",
+    href: "/code",
   },
 ];
 
 const DashboardPage = () => {
+  const router =useRouter();
   return (
     <div>
       <div className="mb-8 space-y-4">
@@ -53,7 +57,9 @@ const DashboardPage = () => {
       </div>
       <div className="px-4 md:px-20 lg:px-32 space-y-4">
         {tools.map((tool, index) => (
-          <Card key={tool.href}
+          <Card
+          onClick={() => router.push(tool.href) }
+           key={tool.href}
            className=" p-4 border-black/54 flex items-center justify-between hover:shadow-md transition cursor-pointer">
             <div className="flex items-center gap-x-4">
                 <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
