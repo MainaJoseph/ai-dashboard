@@ -1,23 +1,37 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
-
-
-
+import OpenAI from 'openai';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY // This is also the default, can be omitted
 });
 
+interface ChatCompletionResponse {
+  id: string;
+  object: string;
+  created: number;
+  model: string;
+  usage: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  };
+  choices: [
+    {
+      message: {
+        role: string;
+        content: string;
+      };
+      finish_reason: string;
+    }
+  ];
+}
 
-
-export async function POST(
-  req: Request
-) {
+export async function POST(req: Request) {
   try {
     const { userId } = auth();
     const body = await req.json();
-    const { messages  } = body;
+    const { messages } = body;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -31,19 +45,18 @@ export async function POST(
       return new NextResponse("Messages are required", { status: 400 });
     }
 
-   
+    
 
-    const ResponseData = await openai.chat.completions.create({
+    const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages
     });
-    console.log(ResponseData.choices[0].message);
 
-    
+    const responseData: ChatCompletionResponse = response.data;
 
-    return NextResponse.json(ResponseData.choices[0].message);
+    return new NextResponse(JSON.stringify(responseData.choices[0].message.content));
   } catch (error) {
     console.log('[CONVERSATION_ERROR]', error);
     return new NextResponse("Internal Error", { status: 500 });
   }
-};
+}
