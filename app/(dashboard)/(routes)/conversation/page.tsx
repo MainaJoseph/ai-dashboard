@@ -18,6 +18,8 @@ import { cn } from '@/lib/utils';
 import { formSchema } from './constants';
 import { Empty } from '@/components/ui/empty';
 import { Loader } from '@/components/loader';
+import { UserAvatar } from '@/components/user-avatar';
+import { BotAvatar } from '@/components/bot-avatar';
 
 const ConversationPage = () => {
   const router = useRouter();
@@ -120,7 +122,10 @@ const ConversationPage = () => {
                   message.role === 'user' ? 'bg-white border border-black/10' : 'bg-muted'
                 )}
               >
-                <p className="text-sm">{message.content}</p>
+                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
+                <p className="text-sm">
+                  {message.content}
+                </p>
               </div>
             ))}
           </div>
