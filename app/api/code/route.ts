@@ -10,6 +10,10 @@ const openai = new OpenAI({
 });
 
 
+const instructionMessage= {
+  role: "system",
+  content: "You are a code generator. You must answer only in markdown code snippets. Use code comments for explanations."
+};
 
 export async function POST(
   req: Request
@@ -27,20 +31,22 @@ export async function POST(
       return new NextResponse("OpenAI API Key not configured.", { status: 500 });
     }
 
+
     if (!messages) {
       return new NextResponse("Messages are required", { status: 400 });
     }
 
    
 
+   
+
     const ResponseData = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages
+      messages: [instructionMessage, ...messages],
     });
-    
     console.log(ResponseData.choices[0].message);
 
-    
+   
 
     return NextResponse.json(ResponseData.choices[0].message);
   } catch (error) {

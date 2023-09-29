@@ -6,7 +6,7 @@ import { MessageSquare } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import ChatCompletionRequestMessage from 'openai';
+import ChatCompletionMessageParam from 'openai';
 
 import { Heading } from '@/components/heading';
 import { Button } from '@/components/ui/button';
@@ -21,10 +21,12 @@ import { Loader } from '@/components/loader';
 import { UserAvatar } from '@/components/user-avatar';
 import { BotAvatar } from '@/components/bot-avatar';
 
+
+
 const ConversationPage = () => {
   const router = useRouter();
 
-  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+  const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,10 +39,10 @@ const ConversationPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const userMessage: ChatCompletionRequestMessage = {
-        role: 'user',
+      const userMessage = {
+        role: "user",
         content: values.prompt,
-      };
+    };
       const newMessages = [...messages, userMessage];
 
       const response = await axios.post('/api/conversation', { messages: newMessages });
