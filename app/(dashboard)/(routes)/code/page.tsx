@@ -8,7 +8,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
 import { useRouter } from "next/navigation";
-import  {chatCompletionMessageParam}  from "openai";
+import OpenAI from 'openai';
 
 import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
@@ -27,7 +27,7 @@ import { formSchema } from "./constants";
 const CodePage = () => {
   const router = useRouter();
  
-  const [messages, setMessages] = useState<chatCompletionMessageParam[]>([]);
+  const [messages, setMessages] = useState<OpenAI.Chat.CreateChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,7 +40,11 @@ const CodePage = () => {
   
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const userMessage: chatCompletionMessageParam = { role: "user", content: values.prompt };
+      const userMessage = {
+        role: "user",
+        content: values.prompt,
+    };
+    
       const newMessages = [...messages, userMessage];
       
       const response = await axios.post('/api/code', { messages: newMessages });

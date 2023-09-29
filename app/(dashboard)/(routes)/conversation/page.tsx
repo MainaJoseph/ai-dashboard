@@ -6,7 +6,7 @@ import { MessageSquare } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import ChatCompletionMessageParam from 'openai';
+import OpenAI from 'openai';
 
 import { Heading } from '@/components/heading';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,7 @@ import { BotAvatar } from '@/components/bot-avatar';
 const ConversationPage = () => {
   const router = useRouter();
 
-  const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
+  const [messages, setMessages] = useState<OpenAI.Chat.CreateChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
