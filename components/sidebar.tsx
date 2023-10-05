@@ -17,6 +17,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { FreeCounter } from "@/components/free-counter";
 
 
 const monserrat = Montserrat ({
@@ -117,6 +118,10 @@ export const Sidebar = ({
             ))}
         </div>
     </div>
+    <FreeCounter
+        apiLimitCount={apiLimitCount} 
+       
+      />
     </div>
   );
 };
