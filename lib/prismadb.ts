@@ -1,7 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-import dotenv from 'dotenv';
-
-dotenv.config({ path: '.env.local' }); // Load environment variables from .env.local
+import { PrismaClient } from "@prisma/client"
 
 declare global {
   var prisma: PrismaClient | undefined
